@@ -1,0 +1,7 @@
+// Values researched October 3, 2026; deliberately separate from the generic importer.
+import {openDatabase} from './database.js';
+import {mkdir} from 'node:fs/promises';
+await mkdir(new URL('./data/',import.meta.url),{recursive:true});
+const db=openDatabase(new URL('./data/gather.sqlite',import.meta.url).pathname.replace(/^\/([A-Za-z]:)/,'$1'));
+if(!db.get('18330567070'))db.save({url:'https://www.walmart.com/ip/seort/18330567070',name:'Jimmy Dean Frozen Protein Blueberry Waffles, 11.28 oz, 8 Count',brand:'Jimmy Dean',packageSize:'11.28 oz / 8 waffles',regularPrice:null,currentPrice:5.82,discountedPrice:null,priceContext:'Walmart.com; Manassas Sudley Rd Supercenter; pickup; one-time purchase. May differ at your store.',priceSource:'https://www.walmart.com/ip/seort/18330567070',servingSize:'2 waffles (80 g)',servingsPerContainer:4,nutrition:{calories:230,protein:20,carbs:16,fat:10,saturatedFat:2,transFat:0,cholesterol:60,sodium:350,fiber:1,sugars:3,addedSugars:2,calcium:30,iron:2,potassium:80},nutritionSource:'https://www.jimmydean.com/products/protein-options/00077900003424',observedAt:new Date().toISOString(),reviewed:false,notes:'Example researched October 3, 2026. Name and current listed package price observed on Walmart. No separate was price or discounted price was displayed. Nutrition from the matching manufacturer product page, UPC 00077900003424. Confirm your package label. Vitamin D amount left unknown because the source did not specify an amount unit.'});
+console.log('Example product available in the food library.');db.close();

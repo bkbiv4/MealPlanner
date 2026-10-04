@@ -1,0 +1,5 @@
+data/*.sqlite*
+walmart-import-fixture.html
+data/ocr/
+data/labels/
+node_modules/

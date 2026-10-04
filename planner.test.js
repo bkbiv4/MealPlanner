@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {generate,presets,recipeById,totals,groceries,swap,eligible} from './planner.js';
+const settings={...presets.balanced,diet:'balanced',exclude:'',minutes:60,people:1};
+test('generates complete menus within cooking budget',()=>{const plan=generate(settings);assert.equal(plan.length,7);for(const day of plan){assert.equal(day.length,3);assert.ok(totals(day).time<=60);}});
+test('exclusions and vegetarian constraint hold',()=>{const s={...settings,diet:'vegetarian',exclude:'eggs, walnuts'};for(const day of generate(s))for(const m of day){assert.ok(recipeById(m.id).vegetarian);assert.ok(eligible(recipeById(m.id),s));assert.ok(!recipeById(m.id).ingredients.some(i=>/eggs|walnuts/i.test(i.name)));}});
+test('infeasible time budget produces empty days',()=>{assert.ok(generate({...settings,minutes:1}).every(d=>d.length===0));});
+test('locks survive regeneration when feasible',()=>{const plan=generate(settings);plan[0][1].locked=true;const next=generate(settings,plan);assert.deepEqual(next[0][1],plan[0][1]);});
+test('grocery amounts scale with household size',()=>{const p=generate(settings),one=groceries(p,1),two=groceries(p,2);for(let i=0;i<one.length;i++)assert.equal(two[i].amount,one[i].amount*2);});
+test('swap updates recipe without violating time budget; locked swap is prevented',()=>{const p=generate(settings),id=p[0][1].id;assert.equal(swap(p,0,1,settings),true);assert.notEqual(p[0][1].id,id);assert.ok(totals(p[0]).time<=60);p[0][1].locked=true;assert.equal(swap(p,0,1,settings),false);});
+test('new exclusion overrides a locked meal',()=>{const p=generate(settings);p[0][0].locked=true;const ingredient=recipeById(p[0][0].id).ingredients[0].name;const s={...settings,exclude:ingredient};const next=generate(s,p);for(const d of next)for(const m of d)assert.ok(eligible(recipeById(m.id),s));});

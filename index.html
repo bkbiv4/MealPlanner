@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Gather — Meal Planner</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><a class="brand" href="/">✳ <span>gather</span></a><span class="header-note">A little planning. A better week.</span><span class="local-badge">Saved on this device</span></header>
+<main>
+  <section class="intro"><div><p class="eyebrow">YOUR WEEK, WELL FED</p><h1>Make room for<br><em>good food.</em></h1><p>Meals that fit your goals. A plan that fits your life.</p></div><div class="intro-art" aria-hidden="true"><span class="plate">🥑</span><span class="art-note">Less guesswork.<br>More gathering.</span></div></section>
+  <div class="workspace">
+  <aside><form id="settings"><div class="section-title"><h2>Your ingredients</h2><span>01</span></div>
+    <label>Week starting <input type="date" id="week" required></label>
+    <label>Eating style<select id="diet"><option value="balanced">Balanced</option><option value="keto">Keto inspired</option><option value="carb">Higher carbohydrate</option><option value="vegetarian">Vegetarian</option><option value="custom">Custom macros</option></select></label>
+    <p class="field-note">Presets set editable targets. Nutrition is estimated; keto meals aren’t a guarantee of ketosis.</p>
+    <div class="macro-inputs"><label>Protein · g<input id="protein" type="number" min="20" max="400" required></label><label>Carbs · g<input id="carbs" type="number" min="0" max="800" required></label><label>Fat · g<input id="fat" type="number" min="10" max="300" required></label></div>
+    <p class="calorie-note" id="calorie-target"></p>
+    <div class="two-fields"><label>People<input id="people" type="number" min="1" max="12" value="1" required></label><label>Cooking min/day<input id="minutes" type="number" min="15" max="240" value="60" required></label></div>
+    <label>Finish dinner by<input id="dinner" type="time" value="19:00" required></label>
+    <label>Planning & shopping day<select id="prep"><option value="6">Sunday</option><option value="0">Monday</option><option value="1">Tuesday</option><option value="2">Wednesday</option><option value="3">Thursday</option><option value="4">Friday</option><option value="5">Saturday</option></select></label>
+    <label>Avoid ingredients<input id="exclude" placeholder="e.g. peanuts, salmon, milk"></label>
+    <p class="field-note">Matches names in this recipe library. Check packaging and substitutions for allergens.</p>
+    <button class="primary" type="submit">Build my week <span>↗</span></button>
+    <p id="save-status" class="field-note" aria-live="polite"></p>
+  </form><div class="aside-note">✦ <strong>A plan, not a prescription.</strong><p>Targets are per person, per day. Shared meals use the same portion size for everyone.</p></div></aside>
+  <section class="plan-area"><div class="plan-top"><div><p class="eyebrow">A FRESH START</p><h2 id="week-title">Your weekly plan</h2></div><button id="print" class="secondary">Print plan ↗</button></div>
+    <nav class="tabs" aria-label="Plan views"><button data-tab="meals" class="active" aria-selected="true">The menu</button><button data-tab="prep" aria-selected="false">Prep & timing</button><button data-tab="groceries" aria-selected="false">Grocery list <span id="grocery-count"></span></button><button data-tab="products" aria-selected="false">Food library</button><button data-tab="batches" aria-selected="false">Batch meals</button></nav>
+    <div id="notices" aria-live="polite"></div>
+    <div id="meals" class="view"></div><div id="prep-view" class="view" hidden></div><div id="groceries" class="view" hidden></div><div id="products" class="view" hidden></div><div id="batches" class="view" hidden></div>
+  </section></div>
+  <footer>Made for the rhythm of real life. <span>Generated recipes use estimates; batch meals use saved product labels.</span></footer>
+</main>
+<dialog id="recipe-dialog"><button id="close-dialog" class="dialog-close" aria-label="Close recipe">×</button><div id="recipe-content"></div></dialog>
+<script type="module" src="app.js"></script>
+<script type="module" src="product-ui.js"></script>
+<script type="module" src="batch-ui.js"></script>
+</body></html>
